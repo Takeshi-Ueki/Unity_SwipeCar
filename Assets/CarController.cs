@@ -6,11 +6,12 @@ public class CarController : MonoBehaviour
 {
 
     float speed = 0;
+    Vector2 startPos;
 
     // Start is called before the first frame update
     void Start()
     {
-        
+        Debug.Log("CarController start.");   
     }
 
     // Update is called once per frame
@@ -19,8 +20,22 @@ public class CarController : MonoBehaviour
         // マウスがクリックされたら
         if (Input.GetMouseButtonDown(0))
         {
-            // 初速度を設定
-            this.speed = 0.2f;
+            // マウスをクリックした座標
+            this.startPos = Input.mousePosition;
+            Debug.Log("Start Position = " + startPos);
+        } else if (Input.GetMouseButtonUp(0)) {
+
+            Vector2 endPos = Input.mousePosition;
+            Debug.Log("End Position = " + endPos);
+
+            float swipeLength = endPos.x - this.startPos.x;
+            Debug.Log("Swipe Length = " + swipeLength);
+            
+            // スワイプの長さを初速度に変換する
+            this.speed = swipeLength / 500.0f;
+
+            // 効果音再生（追加）
+            GetComponent<AudioSource>().Play();
         }
 
         // 移動
